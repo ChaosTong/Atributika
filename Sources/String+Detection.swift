@@ -192,6 +192,11 @@ extension String {
         return (resultString, tagsResult.map { TagInfo(tag: $0.tag, range: resultString.index(resultString.startIndex, offsetBy: $0.rangeStart)..<resultString.index(resultString.startIndex, offsetBy: $0.rangeEnd), level: $0.level) })
     }
     
+    public func detectTopics() -> [Range<String.Index>] {
+        
+        return detect(regex: "[#]\\w\\S*\\b[#]")
+    }
+    
     public func detectHashTags() -> [Range<String.Index>] {
         
         return detect(regex: "[#]\\w\\S*\\b")

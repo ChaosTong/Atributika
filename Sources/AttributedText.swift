@@ -96,6 +96,13 @@ extension AttributedTextProtocol {
         return AttributedText(string: string, detections: detections, baseStyle: baseStyle.merged(with: style))
     }
     
+    /// style things like #xcode# #mentions#
+    public func styleTopics(_ style: Style) -> AttributedText {
+        let ranges = string.detectTopics()
+        let ds = ranges.map { Detection(type: .hashtag(String(string[(string.index($0.lowerBound, offsetBy: 1))..<$0.upperBound])), style: style, range: $0, level: Int.max) }
+        return AttributedText(string: string, detections: detections + ds, baseStyle: baseStyle)
+    }
+    
     /// style things like #xcode #mentions
     public func styleHashtags(_ style: Style) -> AttributedText {
         let ranges = string.detectHashTags()
